@@ -18,10 +18,10 @@ class InfoMessage:
 
     def get_message(self) -> str:
         result: str = (f'Тип тренировки: {self.training_type}; '
-                  f'Длительность: {self.duration:.3f} ч.; '
-                  f'Дистанция: {self.distance:.3f} км; '
-                  f'Ср. скорость: {self.speed:.3f} км/ч; '
-                  f'Потрачено ккал: {self.calories:.3f}.')
+                       f'Длительность: {self.duration:.3f} ч.; '
+                       f'Дистанция: {self.distance:.3f} км; '
+                       f'Ср. скорость: {self.speed:.3f} км/ч; '
+                       f'Потрачено ккал: {self.calories:.3f}.')
         return result
 
 
@@ -100,9 +100,9 @@ class SportsWalking(Training):
     def get_spent_calories(self) -> float:
         """Получить количество затраченных калорий."""
         сount_calories: float = ((self.COEFF_CALORIES_1 * self.weight
-                        + (self.get_mean_speed() ** 2 // self.height)
-                        * self.COEFF_CALORIES_2 * self.weight)
-                        * (self.duration * self.CONVERTER))
+                                 + (self.get_mean_speed() ** 2 // self.height)
+                                 * self.COEFF_CALORIES_2 * self.weight)
+                                 * (self.duration * self.CONVERTER))
         return сount_calories
 
 
@@ -130,13 +130,13 @@ class Swimming(Training):
     def get_mean_speed(self) -> float:
         """Получить среднюю скорость движения."""
         mean_spd: float = (self.lenght_pool * self.count_pool
-                   / self.M_IN_KM / self.duration)
+                           / self.M_IN_KM / self.duration)
         return mean_spd
 
     def get_spent_calories(self) -> float:
         """Получить количество затраченных калорий."""
         сount_calories: float = ((self.get_mean_speed() + self.COEFF1)
-                          * self.COEFF2 * self.weight)
+                                 * self.COEFF2 * self.weight)
         return сount_calories
 
 
