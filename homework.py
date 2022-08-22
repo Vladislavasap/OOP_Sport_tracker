@@ -62,7 +62,6 @@ class Running(Training):
     """Тренировка: бег."""
     COEFF3: int = 18
     COEFF4: int = 20
-    M_IN_KM: int = 1000
 
     def __init__(self,
                  action: int,
@@ -143,7 +142,7 @@ def read_package(workout_type: str, data: list) -> Training:
     }
 
     if workout_type not in training_type:
-        return Type[ValueError]
+        raise ValueError(f'Некорректный тип тренировки {workout_type})
     else:
         return training_type[workout_type](*data)
 
