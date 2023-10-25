@@ -58,6 +58,38 @@ class Training:
                            self.get_spent_calories())
 
 
+class Cycling(Training):
+    '''Тренировка: езда на велосипеде'''
+    LEN_STEP = 1.40
+    COEFF_FOR_TRAIL = 6
+    COEFF_FOR_CLASSIC = 2.5
+
+    def __init__(self,
+                 action: int,
+                 duration: float,
+                 weight: float,
+                 area_type: str
+                 ) -> None:
+        super().__init__(action, duration, weight)
+        self.area_type = area_type
+
+    def get_distance(self) -> float:
+        """Получить дистанцию в км."""
+        return (self.action * self.LEN_STEP) / self.M_IN_KM
+
+    def get_spent_calories(self) -> float:
+        """Получить количество затраченных калорий."""
+        if self.area_type == 'trail':
+            colories_per_minute = (self.COEFF_FOR_TRAIL * self.get_mean_speed()
+                                   * self.weight)
+        else:
+            colories_per_minute = (self. COEFF_FOR_CLASSIC
+                                   * self.get_mean_speed()
+                                   * self.weight)
+        training_mins = self.duration * self.MINUTES_IN_HOUR
+        return (colories_per_minute / self.M_IN_KM) * training_mins
+
+
 class Running(Training):
     """Тренировка: бег."""
     COEFF3: int = 18
@@ -66,7 +98,7 @@ class Running(Training):
     def __init__(self,
                  action: int,
                  duration: float,
-                 weight: float
+                 weight: float,
                  ) -> None:
         super().__init__(action, duration, weight)
 
@@ -138,7 +170,8 @@ def read_package(workout_type: str, data: list) -> Training:
     training_type: Dict[str, Type[Training]] = {
         'SWM': Swimming,
         'RUN': Running,
-        'WLK': SportsWalking
+        'WLK': SportsWalking,
+        'CYC': Cycling
     }
 
     if workout_type not in training_type:
@@ -158,6 +191,7 @@ if __name__ == '__main__':
         ('SWM', [720, 1, 80, 25, 40]),
         ('RUN', [15000, 1, 75]),
         ('WLK', [9000, 1, 75, 180]),
+        ('CYC', [10000, 1, 75, 'trial'])
     ]
 
     for workout_type, data in packages:

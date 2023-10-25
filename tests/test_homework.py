@@ -32,6 +32,7 @@ def test_read_package():
     (('SWM', [720, 1, 80, 25, 40]), 'Swimming'),
     (('RUN', [15000, 1, 75]), 'Running'),
     (('WLK', [9000, 1, 75, 180]), 'SportsWalking'),
+    (('CYC', [10000, 1, 75, 'trial']), 'Cycling'),
 ])
 def test_read_package_return(input_data, expected):
     result = tracker.read_package(*input_data)
