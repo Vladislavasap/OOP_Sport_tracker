@@ -5,25 +5,25 @@ import inspect
 from conftest import Capturing
 
 try:
-    import homework
+    import tracker
 except ModuleNotFoundError:
-    assert False, 'Не найден файл с домашней работой `homework.py`'
+    assert False, 'Не найден файл с домашней работой `tracker.py`'
 except NameError as exc:
     name = re.findall("name '(\w+)' is not defined", str(exc))[0]
     assert False, f'Класс {name} не обнаружен в файле домашней работы.'
 except ImportError:
-    assert False, 'Не найден файл с домашней работой `homework.py`'
+    assert False, 'Не найден файл с домашней работой `tracker.py`'
 
 
 def test_read_package():
-    assert hasattr(homework, 'read_package'), (
+    assert hasattr(tracker, 'read_package'), (
         'Создайте функцию для обработки '
         'входящего пакета - `read_package`'
     )
-    assert callable(homework.read_package), (
+    assert callable(tracker.read_package), (
         'Проверьте, что `read_package` - это функция.'
     )
-    assert isinstance(homework.read_package, types.FunctionType), (
+    assert isinstance(tracker.read_package, types.FunctionType), (
         'Проверьте, что `read_package` - это функция.'
     )
 
@@ -34,7 +34,7 @@ def test_read_package():
     (('WLK', [9000, 1, 75, 180]), 'SportsWalking'),
 ])
 def test_read_package_return(input_data, expected):
-    result = homework.read_package(*input_data)
+    result = tracker.read_package(*input_data)
     assert result.__class__.__name__ == expected, (
         'Функция `read_package` должна возвращать класс '
         'вида спорта в зависимости от кода тренировки.'
@@ -42,10 +42,10 @@ def test_read_package_return(input_data, expected):
 
 
 def test_InfoMessage():
-    assert inspect.isclass(homework.InfoMessage), (
+    assert inspect.isclass(tracker.InfoMessage), (
         'Проверьте, что `InfoMessage` - это класс.'
     )
-    info_message = homework.InfoMessage
+    info_message = tracker.InfoMessage
     info_message_signature = inspect.signature(info_message)
     info_message_signature_list = list(info_message_signature.parameters)
     for p in ['training_type', 'duration', 'distance', 'speed', 'calories']:
@@ -79,7 +79,7 @@ def test_InfoMessage():
      ),
 ])
 def test_InfoMessage_get_message(input_data, expected):
-    info_message = homework.InfoMessage(*input_data)
+    info_message = tracker.InfoMessage(*input_data)
     assert hasattr(info_message, 'get_message'), (
         'Создайте метод `get_message` в классе `InfoMessage`.'
     )
@@ -103,10 +103,10 @@ def test_InfoMessage_get_message(input_data, expected):
 
 
 def test_Training():
-    assert inspect.isclass(homework.Training), (
+    assert inspect.isclass(tracker.Training), (
         'Проверьте, что `Training` - это класс.'
     )
-    training = homework.Training
+    training = tracker.Training
     training_signature = inspect.signature(training)
     training_signature_list = list(training_signature.parameters)
     for param in ['action', 'duration', 'weight']:
@@ -135,7 +135,7 @@ def test_Training():
     ([1206, 12, 6], 0.7838999999999999),
 ])
 def test_Training_get_distance(input_data, expected):
-    training = homework.Training(*input_data)
+    training = tracker.Training(*input_data)
     assert hasattr(training, 'get_distance'), (
         'Создайте метод `get_distance` в классе `Training`.'
     )
@@ -155,7 +155,7 @@ def test_Training_get_distance(input_data, expected):
     ([1206, 12, 6], 0.065325),
 ])
 def test_Training_get_mean_speed(input_data, expected):
-    training = homework.Training(*input_data)
+    training = tracker.Training(*input_data)
     assert hasattr(training, 'get_mean_speed'), (
         'Создайте метод `get_mean_speed` в классе `Training`.'
     )
@@ -176,7 +176,7 @@ def test_Training_get_mean_speed(input_data, expected):
     ([1206, 12, 6]),
 ])
 def test_Training_get_spent_calories(input_data):
-    training = homework.Training(*input_data)
+    training = tracker.Training(*input_data)
     assert hasattr(training, 'get_spent_calories'), (
         'Создайте метод `get_spent_calories` в классе `Training`.'
     )
@@ -186,7 +186,7 @@ def test_Training_get_spent_calories(input_data):
 
 
 def test_Training_show_training_info(monkeypatch):
-    training = homework.Training(*[720, 1, 80])
+    training = tracker.Training(*[720, 1, 80])
     assert hasattr(training, 'show_training_info'), (
         'Создайте метод `show_training_info` в классе `Training`.'
     )
@@ -206,14 +206,14 @@ def test_Training_show_training_info(monkeypatch):
 
 
 def test_Swimming():
-    assert hasattr(homework, 'Swimming'), 'Создайте класс `Swimming`'
-    assert inspect.isclass(homework.Swimming), (
+    assert hasattr(tracker, 'Swimming'), 'Создайте класс `Swimming`'
+    assert inspect.isclass(tracker.Swimming), (
         'Проверьте, что `Swimming` - это класс.'
     )
-    assert issubclass(homework.Swimming, homework.Training), (
+    assert issubclass(tracker.Swimming, tracker.Training), (
         'Класс `Swimming` должен наследоваться от класса `Training`.'
     )
-    swimming = homework.Swimming
+    swimming = tracker.Swimming
     swimming_signature = inspect.signature(swimming)
     swimming_signature_list = list(swimming_signature.parameters)
     for param in ['action', 'duration', 'weight', 'length_pool', 'count_pool']:
@@ -235,7 +235,7 @@ def test_Swimming():
     ([1206, 12, 6, 12, 6], 0.005999999999999999),
 ])
 def test_Swimming_get_mean(input_data, expected):
-    swimming = homework.Swimming(*input_data)
+    swimming = tracker.Swimming(*input_data)
     result = swimming.get_mean_speed()
     assert result == expected, (
         'Переопределите метод `get_mean_speed` в классе `Swimming`. '
@@ -249,7 +249,7 @@ def test_Swimming_get_mean(input_data, expected):
     ([1206, 12, 6, 12, 6], 13.272000000000002),
 ])
 def test_Swimming_get_spent_calories(input_data, expected):
-    swimming = homework.Swimming(*input_data)
+    swimming = tracker.Swimming(*input_data)
     result = swimming.get_spent_calories()
     assert type(result) == float, (
         'Переопределите метод `get_spent_calories` в классе `Swimming`.'
@@ -260,14 +260,14 @@ def test_Swimming_get_spent_calories(input_data, expected):
 
 
 def test_SportsWalking():
-    assert hasattr(homework, 'SportsWalking'), 'Создайте класс `SportsWalking`'
-    assert inspect.isclass(homework.SportsWalking), (
+    assert hasattr(tracker, 'SportsWalking'), 'Создайте класс `SportsWalking`'
+    assert inspect.isclass(tracker.SportsWalking), (
         'Проверьте, что  `SportsWalking` - это класс.'
     )
-    assert issubclass(homework.SportsWalking, homework.Training), (
+    assert issubclass(tracker.SportsWalking, tracker.Training), (
         'Класс `SportsWalking` должен наследоваться от класса `Training`.'
     )
-    sports_walking = homework.SportsWalking
+    sports_walking = tracker.SportsWalking
     sports_walking_signature = inspect.signature(sports_walking)
     sports_walking_signature_list = list(sports_walking_signature.parameters)
     for param in ['action', 'duration', 'weight', 'height']:
@@ -283,7 +283,7 @@ def test_SportsWalking():
     ([1206, 12, 6, 12], 151.20000000000002),
 ])
 def test_SportsWalking_get_spent_calories(input_data, expected):
-    sports_walking = homework.SportsWalking(*input_data)
+    sports_walking = tracker.SportsWalking(*input_data)
     result = sports_walking.get_spent_calories()
     assert type(result) == float, (
         'Переопределите метод `get_spent_calories` в классе `SportsWalking`.'
@@ -295,11 +295,11 @@ def test_SportsWalking_get_spent_calories(input_data, expected):
 
 
 def test_Running():
-    assert hasattr(homework, 'Running'), 'Создайте класс `Running`'
-    assert inspect.isclass(homework.Running), (
+    assert hasattr(tracker, 'Running'), 'Создайте класс `Running`'
+    assert inspect.isclass(tracker.Running), (
         'Проверьте, что `Running` - это класс.'
     )
-    assert issubclass(homework.Running, homework.Training), (
+    assert issubclass(tracker.Running, tracker.Training), (
         'Класс `Running` должен наследоваться от класса `Training`.'
     )
 
@@ -310,7 +310,7 @@ def test_Running():
     ([1206, 12, 6], -81.32032799999999),
 ])
 def test_Running_get_spent_calories(input_data, expected):
-    running = homework.Running(*input_data)
+    running = tracker.Running(*input_data)
     assert hasattr(running, 'get_spent_calories'), (
         'Создайте метод `get_spent_calories` в классе `Running`.'
     )
@@ -324,11 +324,11 @@ def test_Running_get_spent_calories(input_data, expected):
 
 
 def test_main():
-    assert hasattr(homework, 'main'), (
+    assert hasattr(tracker, 'main'), (
         'Создайте главную функцию программы с именем `main`.'
     )
-    assert callable(homework.main), 'Проверьте, что `main` - это функция.'
-    assert isinstance(homework.main, types.FunctionType), (
+    assert callable(tracker.main), 'Проверьте, что `main` - это функция.'
+    assert isinstance(tracker.main, types.FunctionType), (
         'Проверьте, что `main` - это функция.'
     )
 
@@ -358,8 +358,8 @@ def test_main():
 ])
 def test_main_output(input_data, expected):
     with Capturing() as get_message_output:
-        training = homework.read_package(*input_data)
-        homework.main(training)
+        training = tracker.read_package(*input_data)
+        tracker.main(training)
     assert get_message_output == expected, (
         'Метод `main` должен печатать результат в консоль.\n'
     )
